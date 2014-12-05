@@ -11,8 +11,9 @@ public class JFrameInicio extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        buttonGroupAparelho = new javax.swing.ButtonGroup();
+        jRadioButtonCelular = new javax.swing.JRadioButton();
+        jRadioButtonTablet = new javax.swing.JRadioButton();
         jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -25,16 +26,19 @@ public class JFrameInicio extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 51, 51));
 
-        jRadioButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jRadioButton1.setText("Celular");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroupAparelho.add(jRadioButtonCelular);
+        jRadioButtonCelular.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jRadioButtonCelular.setSelected(true);
+        jRadioButtonCelular.setText("Celular");
+        jRadioButtonCelular.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+                jRadioButtonCelularActionPerformed(evt);
             }
         });
 
-        jRadioButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jRadioButton2.setText("Tablet");
+        buttonGroupAparelho.add(jRadioButtonTablet);
+        jRadioButtonTablet.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jRadioButtonTablet.setText("Tablet");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setText("Qual o seu aparelho?");
@@ -52,7 +56,7 @@ public class JFrameInicio extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(156, 156, 156)
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(189, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -70,6 +74,11 @@ public class JFrameInicio extends javax.swing.JFrame {
         });
 
         jButtonAvancar.setText("Avançar");
+        jButtonAvancar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAvancarActionPerformed(evt);
+            }
+        });
 
         jPanel3.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), null));
 
@@ -104,24 +113,26 @@ public class JFrameInicio extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButtonAdministrador)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonAvancar))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(157, 157, 157)
-                                .addComponent(jRadioButton1)
+                                .addComponent(jRadioButtonCelular)
                                 .addGap(120, 120, 120)
-                                .addComponent(jRadioButton2))
+                                .addComponent(jRadioButtonTablet))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(205, 205, 205)
-                                .addComponent(jLabel2))
+                                .addComponent(jLabel2)))
+                        .addGap(0, 188, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 187, Short.MAX_VALUE)))
+                                .addComponent(jButtonAdministrador)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButtonAvancar))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -135,8 +146,8 @@ public class JFrameInicio extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2))
+                    .addComponent(jRadioButtonCelular)
+                    .addComponent(jRadioButtonTablet))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonAdministrador)
@@ -147,9 +158,9 @@ public class JFrameInicio extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+    private void jRadioButtonCelularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonCelularActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+    }//GEN-LAST:event_jRadioButtonCelularActionPerformed
 
     private void jButtonAdministradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAdministradorActionPerformed
         // TODO add your handling code here:
@@ -157,8 +168,24 @@ public class JFrameInicio extends javax.swing.JFrame {
         new JFramePainelAdministrativo();
         this.dispose();
     }//GEN-LAST:event_jButtonAdministradorActionPerformed
+
+    private void jButtonAvancarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAvancarActionPerformed
+        // TODO add your handling code here:
+        
+        String tipo;
+        Aparelho gadget = new Aparelho();
+        if(jRadioButtonCelular.isSelected()) {
+            gadget.setTipo("celular");
+        }else{
+            gadget.setTipo("tablet");
+        } 
+        System.out.println("Tipo selecionado :" + gadget.getTipo());
+        new JFrameIdentificacaoAparelho(gadget);
+        this.dispose();
+    }//GEN-LAST:event_jButtonAvancarActionPerformed
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroupAparelho;
     private javax.swing.JButton jButtonAdministrador;
     private javax.swing.JButton jButtonAvancar;
     private javax.swing.JLabel jLabel1;
@@ -167,7 +194,7 @@ public class JFrameInicio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JRadioButton jRadioButtonCelular;
+    private javax.swing.JRadioButton jRadioButtonTablet;
     // End of variables declaration//GEN-END:variables
 }

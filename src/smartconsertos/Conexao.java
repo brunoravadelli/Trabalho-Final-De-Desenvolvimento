@@ -28,7 +28,6 @@ private String lsNomClasse = "com.mysql.jdbc.Driver";
 private String lsCaminho = "jdbc:mysql://localhost:3306/smart";
 private String lsUsuario = "root";
 private String lsSenha = "";
-private JFrameInicio telaInicio = null;
 private Connection conn = null;
     
     
@@ -64,7 +63,7 @@ private Connection conn = null;
             st.executeUpdate(sqlQuery);
              
             
-            JOptionPane.showMessageDialog(telaInicio, "Defeito incluído com sucesso!");
+            JOptionPane.showMessageDialog(null, "Defeito incluído com sucesso!");
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, e);
         }
