@@ -20,5 +20,7 @@ public class SmartConsertos {
         
         JFrameInicio jInicio = new JFrameInicio();
         
+        
+        
     }
 }

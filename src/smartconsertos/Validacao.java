@@ -5,11 +5,15 @@
  */
 package smartconsertos;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Bruno Ravadelli
  */
 public class Validacao {
+    
+    Conexao con = new Conexao();
     
     public Validacao() {
     }
@@ -23,7 +27,28 @@ public class Validacao {
         }    
     }
     
-    public boolean validaDefeito()
-    
+    public Defeito validaDefeito(int tipoDefeito, String descricao, String tempoConserto, String valorConserto){
+        
+        boolean lbResposta;
+        Defeito defeito = null;
+        TipoDefeito def = null;
+        if (tipoDefeito > -1){
+            def = con.buscaTipoDefeito(tipoDefeito + 1);
+        }
+        
+        if (def == null || descricao.equals("") || valorConserto.equals("") || tempoConserto.equals("")){
+            JOptionPane.showMessageDialog(null, "Campos nulos, por favo preencher!");
+        }else {
+            try {
+                
+                defeito = new Defeito(def, descricao, Double.parseDouble(valorConserto), Integer.parseInt(tempoConserto));
+                System.out.println("Sistema criou defeito em memória");
+                
+            }catch (Exception e){
+                JOptionPane.showConfirmDialog(null, "Campos inválidos!");
+            }
+        }
+        return defeito;
+    }
     
 }

@@ -11,26 +11,35 @@ package smartconsertos;
  */
 public class Defeito {
     
-    private String tipoDefeito;
+    private int id;
+    private TipoDefeito tipoDefeito;
     private String descricao;
     private double valorConserto;
     private int tempoDeConserto;
 
-    public Defeito(String tipoDefeito, String descricao, double valorConserto, int tempoDeConserto) {
+    public Defeito(TipoDefeito tipoDefeito, String descricao, double valorConserto, int tempoDeConserto) {
         this.tipoDefeito = tipoDefeito;
         this.descricao = descricao;
         this.valorConserto = valorConserto;
         this.tempoDeConserto = tempoDeConserto;
     }
 
-    public String getTipoDefeito() {
+    public TipoDefeito getTipoDefeito() {
         return tipoDefeito;
     }
 
-    public void setTipoDefeito(String tipoDefeito) {
+    public void setTipoDefeito(TipoDefeito tipoDefeito) {
         this.tipoDefeito = tipoDefeito;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public String getDescricao() {
         return descricao;
     }

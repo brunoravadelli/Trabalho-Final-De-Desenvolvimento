@@ -4,7 +4,13 @@
  */
 package smartconsertos;
 
+import java.awt.Event;
+import java.util.ArrayList;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -14,14 +20,27 @@ public class JFrameCadastroDefeitos extends javax.swing.JFrame {
     
     Usuario usuario = null;
     Defeito defeito = null;
+    Validacao validacao = new Validacao();
+    Conexao conexao = new Conexao();
+    public static DefaultTableModel modelDefeitos = new DefaultTableModel();
+    Controller controller = new Controller();
     
     public JFrameCadastroDefeitos(Usuario user) {
         initComponents();
         this.usuario = user;
         this.getNomeLogin().setText(usuario.getLogin());
+        ArrayList<TipoDefeito> tipos = conexao.buscaTodosTipoDefeitos();
+        for (TipoDefeito tipo : tipos){
+            this.getComboTiposDefeitos().addItem(tipo.getTipo());
+        }
+        
         this.setVisible(true);
         
         
+    }
+    
+    public JComboBox getComboTiposDefeitos(){
+        return jComboBoxTipoDefeitos;
     }
     
     public JLabel getNomeLogin(){
@@ -47,15 +66,15 @@ public class JFrameCadastroDefeitos extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField_tipo_de_defeito = new javax.swing.JTextField();
         jTextField_preco_conserto = new javax.swing.JTextField();
         jTextField_tempo_conserto = new javax.swing.JTextField();
         jTextField_descricao = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
+        jButtonIncluiDefeito = new javax.swing.JButton();
         jButtonListar = new javax.swing.JButton();
+        jComboBoxTipoDefeitos = new javax.swing.JComboBox();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable_tabela_defeitos = new javax.swing.JTable();
+        jTableDefeitos = new javax.swing.JTable();
         jButtonVoltar = new javax.swing.JButton();
         jButtonAlterar = new javax.swing.JButton();
         jButtonExcluir = new javax.swing.JButton();
@@ -99,14 +118,25 @@ public class JFrameCadastroDefeitos extends javax.swing.JFrame {
 
         jLabel6.setText("Tempo de conserto (dias):");
 
-        jButton4.setText("Incluir");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        jButtonIncluiDefeito.setText("Incluir");
+        jButtonIncluiDefeito.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                jButtonIncluiDefeitoActionPerformed(evt);
             }
         });
 
         jButtonListar.setText("Listar");
+        jButtonListar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonListarActionPerformed(evt);
+            }
+        });
+
+        jComboBoxTipoDefeitos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxTipoDefeitosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -115,26 +145,31 @@ public class JFrameCadastroDefeitos extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField_descricao, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField_tempo_conserto, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField_tipo_de_defeito, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField_preco_conserto, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButtonListar, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButtonIncluiDefeito, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTextField_descricao, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jComboBoxTipoDefeitos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField_tempo_conserto, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(jButtonListar, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField_preco_conserto, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(24, 24, 24))
         );
         jPanel2Layout.setVerticalGroup(
@@ -144,8 +179,9 @@ public class JFrameCadastroDefeitos extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField_tipo_de_defeito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField_preco_conserto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField_preco_conserto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxTipoDefeitos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonListar))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
@@ -153,13 +189,11 @@ public class JFrameCadastroDefeitos extends javax.swing.JFrame {
                     .addComponent(jTextField_tempo_conserto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField_descricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonListar)
-                    .addComponent(jButton4))
+                .addComponent(jButtonIncluiDefeito)
                 .addContainerGap())
         );
 
-        jTable_tabela_defeitos.setModel(new javax.swing.table.DefaultTableModel(
+        jTableDefeitos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -167,7 +201,7 @@ public class JFrameCadastroDefeitos extends javax.swing.JFrame {
                 "Tipo de defeito", "Descrição", "Valor", "Tempo de conserto"
             }
         ));
-        jScrollPane1.setViewportView(jTable_tabela_defeitos);
+        jScrollPane1.setViewportView(jTableDefeitos);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -184,10 +218,25 @@ public class JFrameCadastroDefeitos extends javax.swing.JFrame {
         );
 
         jButtonVoltar.setText("Voltar");
+        jButtonVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonVoltarActionPerformed(evt);
+            }
+        });
 
         jButtonAlterar.setText("Alterar");
+        jButtonAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAlterarActionPerformed(evt);
+            }
+        });
 
         jButtonExcluir.setText("Excluir");
+        jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExcluirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -229,7 +278,7 @@ public class JFrameCadastroDefeitos extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonVoltar)
                     .addComponent(jButtonAlterar)
@@ -240,23 +289,90 @@ public class JFrameCadastroDefeitos extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void jButtonIncluiDefeitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluiDefeitoActionPerformed
         // TODO add your handling code here:
         
+        this.defeito = validacao.validaDefeito(jComboBoxTipoDefeitos.getSelectedIndex() ,jTextField_descricao.getText(), jTextField_tempo_conserto.getText(), jTextField_preco_conserto.getText());
         
+        if(defeito != null) {
+            conexao.inserir(defeito);
+        }else {
+            System.out.println("Problema de validação nos campos");
+            
+        }
         
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_jButtonIncluiDefeitoActionPerformed
 
+    private void jComboBoxTipoDefeitosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxTipoDefeitosActionPerformed
+        // TODO add your handling code here:
+        /*TipoDefeito tipo = null;
+        int indice = (jComboBoxTipoDefeitos.getSelectedIndex()) + 1;
+        tipo = conexao.buscaTipoDefeito(indice);
+        JOptionPane.showMessageDialog(null, "tipo: " + tipo.getTipo() + " id : "+ tipo.getId()); */
+        
+    }//GEN-LAST:event_jComboBoxTipoDefeitosActionPerformed
+
+    private void jButtonVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVoltarActionPerformed
+        // TODO add your handling code here:
+        new JFramePainelAdministrativo();
+        this.dispose();
+    }//GEN-LAST:event_jButtonVoltarActionPerformed
+
+    private void jButtonListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonListarActionPerformed
+        // TODO add your handling code here:
+        this.controller.atualizarTabelaDefeitos();
+    }//GEN-LAST:event_jButtonListarActionPerformed
+
+    private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
+        if (JFrameCadastroDefeitos.jTableDefeitos.getSelectedRow() >= 0) {
+            controller.setarDefeitos();
+            System.out.println("Id selecionada: " + JFrameCadastroDefeitos.jTableDefeitos.getSelectedRow());
+            System.err.println("id para excuir:" + this.controller.defeitos.get(JFrameCadastroDefeitos.jTableDefeitos.getSelectedRow()).getId());
+            
+            this.conexao.excluir(this.controller.defeitos.get(JFrameCadastroDefeitos.jTableDefeitos.getSelectedRow()).getId());
+            this.controller.atualizarTabelaDefeitos();
+            this.controller.setarDefeitos();
+            
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecione um registro para excluir!");
+        }
+    }//GEN-LAST:event_jButtonExcluirActionPerformed
+
+    private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarActionPerformed
+        if (JFrameCadastroDefeitos.jTableDefeitos.getSelectedRow() >= 0) {
+            
+            Defeito defeito = null;
+            this.controller.setarDefeitos();
+            defeito = validacao.validaDefeito(this.controller.defeitos.get(JFrameCadastroDefeitos.jTableDefeitos.getSelectedRow()).getTipoDefeito().getId() ,jTextField_descricao.getText(), jTextField_tempo_conserto.getText(), jTextField_preco_conserto.getText());
+        
+            if(defeito != null) {
+                defeito.setId((this.controller.defeitos.get(JFrameCadastroDefeitos.jTableDefeitos.getSelectedRow()).getId()));
+                this.conexao.alteraDefeito(defeito);
+            }else {
+                System.out.println("Problema de validação nos campos");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecione um registro para alterar!");
+        }
+    }//GEN-LAST:event_jButtonAlterarActionPerformed
+    
+    
+    
+      
+    
+
+    
     /**
      * @param args the command line arguments
      */
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButtonAlterar;
     private javax.swing.JButton jButtonExcluir;
+    private javax.swing.JButton jButtonIncluiDefeito;
     private javax.swing.JButton jButtonListar;
     private javax.swing.JButton jButtonVoltar;
+    private javax.swing.JComboBox jComboBoxTipoDefeitos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -268,11 +384,10 @@ public class JFrameCadastroDefeitos extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable_tabela_defeitos;
+    public static javax.swing.JTable jTableDefeitos;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField_descricao;
     private javax.swing.JTextField jTextField_preco_conserto;
     private javax.swing.JTextField jTextField_tempo_conserto;
-    private javax.swing.JTextField jTextField_tipo_de_defeito;
     // End of variables declaration//GEN-END:variables
 }
