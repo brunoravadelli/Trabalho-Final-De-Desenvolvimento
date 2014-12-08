@@ -4,28 +4,62 @@
  */
 package smartconsertos;
 
+import java.util.ArrayList;
+import javafx.scene.control.ComboBox;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 
 public class JFrameIdentificacaoAparelho extends javax.swing.JFrame {
-
-    private String[] marcas = {"Samsung","Sony","LG","Apple"};
-    private String[] celularesSamsung = {"Galaxy S5" , "Galaxy Note 4"};
-    private String[] celularesSony = {"Xperia Z3" , "Xperia Z2"};
-    private String[] celularesLG = {"G3" , "Nexus 5"};
-    private String[] celularesApple = {"Iphone 6" , "Iphone 5S"};
-    private String[] tabletsSamsung = {"Galaxy tab 3" , "Galaxy tab 4"};
-    private String[] tabletsSony = {"Xperia Z3 tab" , "Xperia Z2 tab"};
-    private String[] tablestsLG = {"G3 tab" , "Nexus 5 tab"};
-    private String[] tabletsApple = {"Ipad 4" , "Ipad Air 2"};
-    private String[] cores =  {"preto", "branco", "vermelho","cinza"};
     
+    private Conexao con = new Conexao();
+    private Controller controller = new Controller();
+    private String gadget;
+    private Object[] cores = {"Preto", "Branco", "Azul", "Vermelho"};
+    private ArrayList<Celular> cels = null;
+    private ArrayList<Tablet> tabs = null;
+    private Celular celEscolhido = null;
+    private Tablet tabEscolhido = null;
+    private Marca marcaEscolhida = null;
+    private TipoDefeito defeitoEscolhido = null;
+
     public JFrameIdentificacaoAparelho(Aparelho aparelho) {
+        this.controller.insereMarcas();
+        this.controller.insereCelulares();
+        this.gadget = aparelho.getTipo();
+        ArrayList<Marca> marcas = con.buscaTodasMarcas();
+        ArrayList<TipoDefeito> tipos = con.buscaTodosTipoDefeitos();
         initComponents();
+        for (Marca marca : marcas){
+            this.jComboBoxMarca.addItem(marca.getNomeMarca());
+        }
+        this.cels = con.buscaTodosCelulares(marcas.get(0));
+        for (Celular celular : this.cels){
+            this.jComboBoxNomeAparelho.addItem(celular.getNome());
+        }
+        for (TipoDefeito tipo : tipos){
+            this.jComboBoxTipoDefeito.addItem(tipo.getTipo());
+        }
+        for (int i =0; i<cores.length; i++){
+            this.jComboBoxCor.addItem(cores[i]);
+        }
+        
         this.setVisible(true);
         
     }
+    public JFrameIdentificacaoAparelho(){
+        
+    }
 
+    public JComboBox getComboBoxMarcas(){
+        return jComboBoxMarca;
+    }
+    public JComboBox getComboBoxCelulares(){
+        return jComboBoxNomeAparelho;
+    }
+    public JComboBox getComboBoxTipoDefeito(){
+        return jComboBoxTipoDefeito;
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -39,7 +73,7 @@ public class JFrameIdentificacaoAparelho extends javax.swing.JFrame {
         jComboBoxMarca = new javax.swing.JComboBox();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
+        jComboBoxCor = new javax.swing.JComboBox();
         jComboBoxNomeAparelho = new javax.swing.JComboBox();
         jButtonPesquisar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
@@ -80,6 +114,12 @@ public class JFrameIdentificacaoAparelho extends javax.swing.JFrame {
 
         jLabel2.setText("Marca aparelho:");
 
+        jComboBoxMarca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxMarcaActionPerformed(evt);
+            }
+        });
+
         jLabel3.setText("Cor:");
 
         jLabel4.setText("Nome aparelho:");
@@ -91,6 +131,11 @@ public class JFrameIdentificacaoAparelho extends javax.swing.JFrame {
         });
 
         jButtonPesquisar.setText("Pesquisar");
+        jButtonPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPesquisarActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Tipo de defeito:");
 
@@ -115,7 +160,7 @@ public class JFrameIdentificacaoAparelho extends javax.swing.JFrame {
                             .addComponent(jLabel5))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBoxCor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jComboBoxTipoDefeito, 0, 166, Short.MAX_VALUE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(228, 228, 228)
@@ -130,7 +175,7 @@ public class JFrameIdentificacaoAparelho extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jComboBoxMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBoxCor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -213,14 +258,19 @@ public class JFrameIdentificacaoAparelho extends javax.swing.JFrame {
 
     private void jButtonAvancarParaOrcamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAvancarParaOrcamentoActionPerformed
         // TODO add your handling code here:
-        new JFrameOrcamento();
+        if (gadget.equals("celular")){
+            new JFrameOrcamento(this.celEscolhido);
+        }
+        else{
+            new JFrameOrcamento(this.tabEscolhido);
+        }
         this.dispose();
         
     }//GEN-LAST:event_jButtonAvancarParaOrcamentoActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        new JFrameOrcamento();
+        new JFrameInicio();
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -228,21 +278,69 @@ public class JFrameIdentificacaoAparelho extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (jComboBoxMarca.getSelectedIndex() == -1){
             JOptionPane.showMessageDialog(null, "Desculpe mas você precisa selecionar uma marca antes");
-        }else {
+        }else{
+            int id_aparelho = jComboBoxNomeAparelho.getSelectedIndex();
+            
+            if (cels == null){
+                System.out.println("cels está nulo!");
+            }
+             
+            if (gadget.equals("celular")) {
+                for (Celular cel : this.cels){
+                    if (cel.getId() == id_aparelho){
+                        this.celEscolhido = cel;
+                        System.out.println("cel escolhido " + this.celEscolhido.getNome());
+                    } 
+                }
+                //System.out.println("Celular escolhido : " +celEscolhido.getNome());
+            }
+            else {
+                for (Tablet tab : this.tabs){
+                    if (tab.getId() == id_aparelho){
+                        this.tabEscolhido = tab;
+                    } 
+                }
+                //System.out.println("Tablet escolhido : " +tabEscolhido.getNome());
+            }
+            
+            
+            
         }
+        
         
     }//GEN-LAST:event_jComboBoxNomeAparelhoActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void jComboBoxMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxMarcaActionPerformed
+            System.out.println("Marca selecionada: "+jComboBoxMarca.getSelectedIndex());
+            System.out.println("Gadget escolhido: " +this.gadget);
+            this.marcaEscolhida = con.buscaMarca(jComboBoxNomeAparelho.getSelectedIndex() + 1);
+            if (this.gadget.equals("celular")){
+                this.cels = con.buscaTodosCelulares(this.marcaEscolhida);
+                for (Celular c : this.cels){
+                    jComboBoxNomeAparelho.removeAllItems();
+                    jComboBoxNomeAparelho.addItem(c.getNome());
+                }
+            }else{
+               this.tabs = con.buscaTodoslTablets(this.marcaEscolhida);
+               for (Tablet tab : this.tabs){
+                    jComboBoxNomeAparelho.removeAllItems();
+                    jComboBoxNomeAparelho.addItem(tab.getNome());
+               }
+            }
+    }//GEN-LAST:event_jComboBoxMarcaActionPerformed
+
+    private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed
+        // TODO add your handling code here:
+        jTextPane1.setText(con.buscaTipoDefeito(jComboBoxTipoDefeito.getSelectedIndex()+1).getTipo());
+    }//GEN-LAST:event_jButtonPesquisarActionPerformed
+
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup RadioGroupTipoGadget;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonAvancarParaOrcamento;
     private javax.swing.JButton jButtonPesquisar;
-    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox jComboBoxCor;
     private javax.swing.JComboBox jComboBoxMarca;
     private javax.swing.JComboBox jComboBoxNomeAparelho;
     private javax.swing.JComboBox jComboBoxTipoDefeito;
@@ -259,3 +357,4 @@ public class JFrameIdentificacaoAparelho extends javax.swing.JFrame {
     private javax.swing.JTextPane jTextPane1;
     // End of variables declaration//GEN-END:variables
 }
+

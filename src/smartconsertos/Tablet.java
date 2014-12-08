@@ -4,17 +4,17 @@ package smartconsertos;
  *
  * @author Bruno Ravadelli
  */
-public class Celular {
+public class Tablet {
     
     private int id;
     private String nome;
     private Marca marca;
     private double valor;
 
-    public Celular() {
+    public Tablet() {
     }
 
-    public Celular(int id, String nome, Marca marca, double valor) {
+    public Tablet(int id, String nome, Marca marca, double valor) {
         this.id = id;
         this.nome = nome;
         this.marca = marca;

@@ -6,7 +6,11 @@ package smartconsertos;
 
 public class JFrameOrcamento extends javax.swing.JFrame {
 
-    public JFrameOrcamento() {
+    public JFrameOrcamento(Celular cel) {
+        initComponents();
+        this.setVisible(true);
+    }
+    public JFrameOrcamento(Tablet tab) {
         initComponents();
         this.setVisible(true);
     }
@@ -172,7 +176,7 @@ public class JFrameOrcamento extends javax.swing.JFrame {
 
     private void jButtonVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVoltarActionPerformed
         // TODO add your handling code here:
-        new JFrameIdentificacaoAparelho(null);
+        new JFrameInicio();
         this.dispose();
     }//GEN-LAST:event_jButtonVoltarActionPerformed
 

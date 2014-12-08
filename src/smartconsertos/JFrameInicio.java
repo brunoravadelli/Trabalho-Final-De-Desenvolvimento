@@ -1,12 +1,18 @@
 package smartconsertos;
 
+import java.util.ArrayList;
+import javax.swing.JComboBox;
+
 public class JFrameInicio extends javax.swing.JFrame {
+    
+    Controller controller = new Controller();
+    Conexao conexao = new Conexao();
 
     public JFrameInicio() {
         initComponents();
         this.setVisible(true);
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -214,6 +220,7 @@ public class JFrameInicio extends javax.swing.JFrame {
         new JFrameIdentificacaoAparelho(gadget);
         this.dispose();
     }//GEN-LAST:event_jButtonAvancarActionPerformed
+
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupAparelho;
