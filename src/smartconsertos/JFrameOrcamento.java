@@ -6,12 +6,22 @@ package smartconsertos;
 
 public class JFrameOrcamento extends javax.swing.JFrame {
 
-    public JFrameOrcamento(Celular cel) {
+    Controller c = new Controller();
+    
+    public JFrameOrcamento(Celular cel, double valorTotal) {
         initComponents();
+        this.jLabelValorConserto.setText(String.valueOf(valorTotal));
+        if (c.analisaBeneficio(valorTotal, cel)){
+            jLabelViabilidadeConserto.setText("Nossa equipe aconselha o conserto!");
+        }else {
+            jLabelViabilidadeConserto.setText("Nossa equipe NÃO aconselha o conserto!");
+        }
         this.setVisible(true);
     }
-    public JFrameOrcamento(Tablet tab) {
+    public JFrameOrcamento(Tablet tab, double valorTotal) {
         initComponents();
+        this.jLabelValorConserto.setText(String.valueOf(valorTotal));
+        
         this.setVisible(true);
     }
 
@@ -27,7 +37,7 @@ public class JFrameOrcamento extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        jLabelViabilidadeConserto = new javax.swing.JLabel();
         jButtonVoltar = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabelValorConserto = new javax.swing.JLabel();
@@ -102,9 +112,9 @@ public class JFrameOrcamento extends javax.swing.JFrame {
         jLabel4.setText("Valor Conserto:");
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel6.setText("Nós aconselhamos o conserto:");
+        jLabel6.setText("O que temos a dizer:");
 
-        jLabel7.setText("XXX");
+        jLabelViabilidadeConserto.setText("XXX");
 
         jButtonVoltar.setText("Voltar");
         jButtonVoltar.addActionListener(new java.awt.event.ActionListener() {
@@ -124,12 +134,10 @@ public class JFrameOrcamento extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonVoltar)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel7)))
+                    .addComponent(jButtonVoltar)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabelViabilidadeConserto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(154, 154, 154)
@@ -161,12 +169,14 @@ public class JFrameOrcamento extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7))
-                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(26, 26, 26))
+                            .addComponent(jLabel6))
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabelViabilidadeConserto)
+                        .addGap(1, 1, 1)
                         .addComponent(jButtonVoltar)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -187,9 +197,9 @@ public class JFrameOrcamento extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabelValorConserto;
+    private javax.swing.JLabel jLabelViabilidadeConserto;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

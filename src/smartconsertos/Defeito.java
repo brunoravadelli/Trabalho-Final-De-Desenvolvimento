@@ -16,6 +16,9 @@ public class Defeito {
     private String descricao;
     private double valorConserto;
     private int tempoDeConserto;
+    
+    public Defeito(){
+    }
 
     public Defeito(TipoDefeito tipoDefeito, String descricao, double valorConserto, int tempoDeConserto) {
         this.tipoDefeito = tipoDefeito;

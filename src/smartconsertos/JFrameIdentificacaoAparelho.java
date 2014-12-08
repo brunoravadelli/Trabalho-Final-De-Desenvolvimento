@@ -21,14 +21,19 @@ public class JFrameIdentificacaoAparelho extends javax.swing.JFrame {
     private Celular celEscolhido = null;
     private Tablet tabEscolhido = null;
     private Marca marcaEscolhida = null;
-    private TipoDefeito defeitoEscolhido = null;
+    private TipoDefeito tipoDefeitoEscolhido = null;
+    private Defeito defeitoEscolhido = null;
+    private ArrayList <TipoDefeito> tiposDefeitos = null;
+    private double valorTotal;
 
-    public JFrameIdentificacaoAparelho(Aparelho aparelho) {
-        this.controller.insereMarcas();
-        this.controller.insereCelulares();
+    public JFrameIdentificacaoAparelho(Aparelho aparelho, boolean lbInserirDados) {
+        if (lbInserirDados) {
+            this.controller.insereMarcas();
+            this.controller.insereCelulares();
+        }
         this.gadget = aparelho.getTipo();
         ArrayList<Marca> marcas = con.buscaTodasMarcas();
-        ArrayList<TipoDefeito> tipos = con.buscaTodosTipoDefeitos();
+        tiposDefeitos = con.buscaTodosTipoDefeitos();
         initComponents();
         for (Marca marca : marcas){
             this.jComboBoxMarca.addItem(marca.getNomeMarca());
@@ -37,7 +42,7 @@ public class JFrameIdentificacaoAparelho extends javax.swing.JFrame {
         for (Celular celular : this.cels){
             this.jComboBoxNomeAparelho.addItem(celular.getNome());
         }
-        for (TipoDefeito tipo : tipos){
+        for (TipoDefeito tipo : this.tiposDefeitos){
             this.jComboBoxTipoDefeito.addItem(tipo.getTipo());
         }
         for (int i =0; i<cores.length; i++){
@@ -258,13 +263,18 @@ public class JFrameIdentificacaoAparelho extends javax.swing.JFrame {
 
     private void jButtonAvancarParaOrcamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAvancarParaOrcamentoActionPerformed
         // TODO add your handling code here:
-        if (gadget.equals("celular")){
-            new JFrameOrcamento(this.celEscolhido);
+        if (this.celEscolhido == null || this.valorTotal == 0) {
+            JOptionPane.showMessageDialog(null, "Por favor pesquise um tipo de defeito e escolha um celular");
+                    
+        }else {
+            if (gadget.equals("celular")){
+                new JFrameOrcamento(this.celEscolhido, this.valorTotal);
+            }
+            else{
+                new JFrameOrcamento(this.tabEscolhido,  this.valorTotal);
+            }
+            this.dispose();
         }
-        else{
-            new JFrameOrcamento(this.tabEscolhido);
-        }
-        this.dispose();
         
     }//GEN-LAST:event_jButtonAvancarParaOrcamentoActionPerformed
 
@@ -331,7 +341,16 @@ public class JFrameIdentificacaoAparelho extends javax.swing.JFrame {
 
     private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed
         // TODO add your handling code here:
-        jTextPane1.setText(con.buscaTipoDefeito(jComboBoxTipoDefeito.getSelectedIndex()+1).getTipo());
+        ArrayList<Defeito> defeitosTemp = con.buscaDefeitos(tiposDefeitos.get(jComboBoxTipoDefeito.getSelectedIndex()).getId());
+        String temp = "";
+        this.valorTotal = 0;
+        for (Defeito defeito : defeitosTemp){
+            this.valorTotal += defeito.getValorConserto();
+            temp += defeito.getDescricao() + " \n";
+            temp += "VALOR : " + defeito.getValorConserto() + " \n"; 
+        }
+        temp+= "Valor total dos defeitos:  " + this.valorTotal;
+        jTextPane1.setText(temp);
     }//GEN-LAST:event_jButtonPesquisarActionPerformed
 
     

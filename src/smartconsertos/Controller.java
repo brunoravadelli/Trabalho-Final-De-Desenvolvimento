@@ -11,15 +11,6 @@ public class Controller {
     private ArrayList<Marca> marcas = new ArrayList<>();
     private ArrayList<Celular> celulares = new ArrayList<>();
     private Conexao con = new Conexao();
-    private String[] celularesSamsung = {"Galaxy S5" , "Galaxy Note 4"};
-    private String[] celularesSony = {"Xperia Z3" , "Xperia Z2"};
-    private String[] celularesLG = {"G3" , "Nexus 5"};
-    private String[] celularesApple = {"Iphone 6" , "Iphone 5S"};
-    private String[] tabletsSamsung = {"Galaxy tab 3" , "Galaxy tab 4"};
-    private String[] tabletsSony = {"Xperia Z3 tab" , "Xperia Z2 tab"};
-    private String[] tablestsLG = {"G3 tab" , "Nexus 5 tab"};
-    private String[] tabletsApple = {"Ipad 4" , "Ipad Air 2"};
-    //private String[] cores =  {"preto", "branco", "vermelho","cinza"};
     
     public void atualizarTabelaDefeitos() {
         ArrayList <Defeito> defeitos = new ArrayList<>();
@@ -37,6 +28,17 @@ public class Controller {
             JFrameCadastroDefeitos.modelDefeitos = new DefaultTableModel(dados, new Object[]{"Tipo de defeito", "Descrição", "Valor do Conserto", "Tempo de Conserto"});
             JFrameCadastroDefeitos.jTableDefeitos.setModel(JFrameCadastroDefeitos.modelDefeitos);            
         }
+    }
+    
+    public boolean analisaBeneficio(double valorTotal, Celular cel){
+        boolean lbRet = true;
+        double percViabilidade = 40;
+        double percValorTotal = (cel.getValor() * percViabilidade) / 100;
+        System.out.println("Valor do celular total: "+cel.getValor() + "Até "+percValorTotal+"para ter beneficio");
+        if (valorTotal > percValorTotal){
+            lbRet = false;
+        }
+        return lbRet;
     }
     
     public void setarDefeitos() {

@@ -116,6 +116,25 @@ private Connection conn = null;
         
     }
     
+    public ArrayList<Defeito> buscaDefeitos(int id){
+        
+        ArrayList <Defeito> defeitos =  new ArrayList<>();
+        
+        try {
+            String sqlQuery = "SELECT * FROM defeito WHERE tipo_id = ?";            
+            PreparedStatement st = conn.prepareStatement(sqlQuery);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()){
+                defeitos.add(new Defeito(new TipoDefeito(id, null), rs.getString("descricao"), rs.getDouble("valor_conserto"), rs.getInt("prazo_conserto")));
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        }   
+        
+        return defeitos;
+    }
+    
     
     
     public ArrayList<Defeito> listarDefeitos(){
