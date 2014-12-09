@@ -299,7 +299,6 @@ public class JFrameCadastroDefeitos extends javax.swing.JFrame {
             conexao.inserir(defeito);
         }else {
             System.out.println("Problema de validação nos campos");
-            
         }
         this.controller.atualizarTabelaDefeitos();
     }//GEN-LAST:event_jButtonIncluiDefeitoActionPerformed
