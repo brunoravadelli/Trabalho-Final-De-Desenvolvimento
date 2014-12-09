@@ -78,15 +78,6 @@ private Connection conn = null;
                     + defeito.getTempoDeConserto() + ","
                     + defeito.getTipoDefeito().getId() + ")";            
             java.sql.Statement st = conn.createStatement();
-            
-            /*
-            -- não funciona --
-            PreparedStatement st = conn.prepareStatement(sqlQuery);
-            st.setString(1, defeito.getDescricao());
-            st.setDouble(2, defeito.getValorConserto());
-            st.setInt(3, defeito.getTempoDeConserto());
-            st.setInt(4, defeito.getTipoDefeito().getId());
-            */
             st.executeUpdate(sqlQuery);
              
             

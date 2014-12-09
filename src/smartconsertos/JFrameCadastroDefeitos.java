@@ -293,7 +293,7 @@ public class JFrameCadastroDefeitos extends javax.swing.JFrame {
     private void jButtonIncluiDefeitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluiDefeitoActionPerformed
         // TODO add your handling code here:
         
-        this.defeito = validacao.validaDefeito(jComboBoxTipoDefeitos.getSelectedIndex() ,jTextField_descricao.getText(), jTextField_tempo_conserto.getText(), jTextField_preco_conserto.getText());
+        this.defeito = validacao.validaDefeito(jComboBoxTipoDefeitos.getSelectedIndex() + 1 ,jTextField_descricao.getText(), jTextField_tempo_conserto.getText(), jTextField_preco_conserto.getText());
         
         if(defeito != null) {
             conexao.inserir(defeito);
