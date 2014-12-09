@@ -48,7 +48,8 @@ public class JFrameIdentificacaoAparelho extends javax.swing.JFrame {
         for (int i =0; i<cores.length; i++){
             this.jComboBoxCor.addItem(cores[i]);
         }
-        
+        this.jComboBoxMarca.setSelectedIndex(0);
+        this.celEscolhido = this.cels.get(0);
         this.setVisible(true);
         
     }
@@ -323,20 +324,21 @@ public class JFrameIdentificacaoAparelho extends javax.swing.JFrame {
     private void jComboBoxMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxMarcaActionPerformed
             System.out.println("Marca selecionada: "+jComboBoxMarca.getSelectedIndex());
             System.out.println("Gadget escolhido: " +this.gadget);
-            this.marcaEscolhida = con.buscaMarca(jComboBoxNomeAparelho.getSelectedIndex() + 1);
+            this.marcaEscolhida = con.buscaMarca(jComboBoxMarca.getSelectedIndex() + 1);
             if (this.gadget.equals("celular")){
                 this.cels = con.buscaTodosCelulares(this.marcaEscolhida);
+                jComboBoxNomeAparelho.removeAllItems();
                 for (Celular c : this.cels){
-                    jComboBoxNomeAparelho.removeAllItems();
                     jComboBoxNomeAparelho.addItem(c.getNome());
                 }
             }else{
                this.tabs = con.buscaTodoslTablets(this.marcaEscolhida);
+               jComboBoxNomeAparelho.removeAllItems();
                for (Tablet tab : this.tabs){
-                    jComboBoxNomeAparelho.removeAllItems();
                     jComboBoxNomeAparelho.addItem(tab.getNome());
                }
             }
+            this.repaint();
     }//GEN-LAST:event_jComboBoxMarcaActionPerformed
 
     private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed

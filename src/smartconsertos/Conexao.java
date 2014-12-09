@@ -256,7 +256,9 @@ private Connection conn = null;
         ArrayList<Tablet> tablets = new ArrayList<>();
         
         try {
-            String sqlQuery = "SELECT tablet.*, marca.nome FROM tablet, marca.nome FROM tablet where tablet.id_marca = ?";
+            String sqlQuery = "SELECT tablet.*, marca.nome FROM tablet" +
+                    " left join marca on tablet.id_marca = marca.id" +
+                    " where tablet.id_marca = ?";
             PreparedStatement st = conn.prepareStatement(sqlQuery);
             st.setInt(1, marca.getId());
             ResultSet rs = st.executeQuery();
@@ -280,7 +282,9 @@ private Connection conn = null;
         ArrayList<Celular> celulares = new ArrayList<>();
         
         try {
-            String sqlQuery = "SELECT celular.*, marca.nome FROM celular, marca where celular.id_marca = ?";
+            String sqlQuery = "SELECT celular.*, marca.nome FROM celular" +
+                    " left join marca on celular.id_marca = marca.id" +
+                    " where celular.id_marca = ?";
             PreparedStatement st = conn.prepareStatement(sqlQuery);
             st.setInt(1, marca.getId());
             ResultSet rs = st.executeQuery();

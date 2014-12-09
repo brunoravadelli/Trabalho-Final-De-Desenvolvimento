@@ -32,9 +32,9 @@ public class Validacao {
         boolean lbResposta;
         Defeito defeito = null;
         TipoDefeito def = null;
-        if (tipoDefeito > -1){
-            def = con.buscaTipoDefeito(tipoDefeito + 1);
-        }
+  //      if (tipoDefeito > -1){
+            def = con.buscaTipoDefeito(tipoDefeito);
+  //      }
         
         if (def == null || descricao.equals("") || valorConserto.equals("") || tempoConserto.equals("")){
             JOptionPane.showMessageDialog(null, "Campos nulos, por favo preencher!");

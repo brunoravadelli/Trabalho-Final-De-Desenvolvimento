@@ -301,7 +301,7 @@ public class JFrameCadastroDefeitos extends javax.swing.JFrame {
             System.out.println("Problema de validação nos campos");
             
         }
-        
+        this.controller.atualizarTabelaDefeitos();
     }//GEN-LAST:event_jButtonIncluiDefeitoActionPerformed
 
     private void jComboBoxTipoDefeitosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxTipoDefeitosActionPerformed
@@ -344,11 +344,12 @@ public class JFrameCadastroDefeitos extends javax.swing.JFrame {
             
             Defeito defeito = null;
             this.controller.setarDefeitos();
-            defeito = validacao.validaDefeito(this.controller.defeitos.get(JFrameCadastroDefeitos.jTableDefeitos.getSelectedRow()).getTipoDefeito().getId() ,jTextField_descricao.getText(), jTextField_tempo_conserto.getText(), jTextField_preco_conserto.getText());
+            defeito = validacao.validaDefeito(this.jComboBoxTipoDefeitos.getSelectedIndex() + 1, jTextField_descricao.getText(), jTextField_tempo_conserto.getText(), jTextField_preco_conserto.getText());
         
             if(defeito != null) {
                 defeito.setId((this.controller.defeitos.get(JFrameCadastroDefeitos.jTableDefeitos.getSelectedRow()).getId()));
                 this.conexao.alteraDefeito(defeito);
+                this.controller.atualizarTabelaDefeitos();
             }else {
                 System.out.println("Problema de validação nos campos");
             }
