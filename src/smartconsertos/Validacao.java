@@ -45,7 +45,7 @@ public class Validacao {
                 System.out.println("Sistema criou defeito em memória");
                 
             }catch (Exception e){
-                JOptionPane.showConfirmDialog(null, "Campos inválidos!");
+                JOptionPane.showMessageDialog(null, "Campos inválidos!");
             }
         }
         return defeito;
