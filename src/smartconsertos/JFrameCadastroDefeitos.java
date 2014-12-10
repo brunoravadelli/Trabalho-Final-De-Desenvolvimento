@@ -321,6 +321,9 @@ public class JFrameCadastroDefeitos extends javax.swing.JFrame {
     private void jButtonListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonListarActionPerformed
         // TODO add your handling code here:
         this.controller.atualizarTabelaDefeitos();
+        if (jTableDefeitos.getRowCount() == 0){
+            JOptionPane.showMessageDialog(null, "Nenhum Registro encontrado!");
+        }
     }//GEN-LAST:event_jButtonListarActionPerformed
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
@@ -330,8 +333,8 @@ public class JFrameCadastroDefeitos extends javax.swing.JFrame {
             System.err.println("id para excuir:" + this.controller.defeitos.get(JFrameCadastroDefeitos.jTableDefeitos.getSelectedRow()).getId());
             
             this.conexao.excluir(this.controller.defeitos.get(JFrameCadastroDefeitos.jTableDefeitos.getSelectedRow()).getId());
-            this.controller.atualizarTabelaDefeitos();
             this.controller.setarDefeitos();
+            this.controller.atualizarTabelaDefeitos();
             
         } else {
             JOptionPane.showMessageDialog(null, "Selecione um registro para excluir!");

@@ -9,25 +9,20 @@ public class Controller {
     private Conexao conexao = new Conexao();
     ArrayList<Defeito> defeitos = new ArrayList<>();
     private ArrayList<Marca> marcas = new ArrayList<>();
-    private ArrayList<Celular> celulares = new ArrayList<>();
-    private Conexao con = new Conexao();
     
     public void atualizarTabelaDefeitos() {
         ArrayList <Defeito> defeitos = new ArrayList<>();
         defeitos = conexao.listarDefeitos();
-        if (defeitos.size() == 0) {
-            JOptionPane.showMessageDialog(null, "Nenhum registro encontrado", "Consulta", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            Object[][] dados = new Object[defeitos.size()][4];
-            for (int i = 0; i < defeitos.size(); i++) {
+        Object[][] dados = new Object[defeitos.size()][4];
+        for (int i = 0; i < defeitos.size(); i++) {
                 dados[i][0] = defeitos.get(i).getTipoDefeito().getTipo();
                 dados[i][1] = defeitos.get(i).getDescricao();
                 dados[i][2] = defeitos.get(i).getValorConserto();
                 dados[i][3] = defeitos.get(i).getTempoDeConserto();
-            }
-            JFrameCadastroDefeitos.modelDefeitos = new DefaultTableModel(dados, new Object[]{"Tipo de defeito", "Descrição", "Valor do Conserto", "Tempo de Conserto"});
-            JFrameCadastroDefeitos.jTableDefeitos.setModel(JFrameCadastroDefeitos.modelDefeitos);            
         }
+        JFrameCadastroDefeitos.modelDefeitos = new DefaultTableModel(dados, new Object[]{"Tipo de defeito", "Descrição", "Valor do Conserto", "Tempo de Conserto"});
+        JFrameCadastroDefeitos.jTableDefeitos.setModel(JFrameCadastroDefeitos.modelDefeitos);            
+        
     }
     
     public boolean analisaBeneficio(double valorTotal, Celular cel){
@@ -53,7 +48,7 @@ public class Controller {
         }
         
         for (Marca m : this.marcas){
-            con.insereMarcas(m);
+            conexao.insereMarcas(m);
         }
     }
     

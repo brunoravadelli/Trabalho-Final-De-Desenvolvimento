@@ -21,8 +21,6 @@ public class JFrameIdentificacaoAparelho extends javax.swing.JFrame {
     private Celular celEscolhido = null;
     private Tablet tabEscolhido = null;
     private Marca marcaEscolhida = null;
-    private TipoDefeito tipoDefeitoEscolhido = null;
-    private Defeito defeitoEscolhido = null;
     private ArrayList <TipoDefeito> tiposDefeitos = null;
     private double valorTotal;
 
