@@ -33,7 +33,7 @@ public class ValidacaoTest {
         System.out.println("validaLogin");
         Usuario u = new Usuario("Antedeguemon", "123");
         Validacao instance = new Validacao();
-        boolean expResult = false;
+        boolean expResult = true;
         boolean result = instance.validaLogin(u);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
